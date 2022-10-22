@@ -37,7 +37,23 @@ class BENBOX(Boxes):
             "--hinge", action="store", type=bool, default=True,
             help="distance between the holes in the hinge")
         
+    def holeCtr(self, x, y, r=0.0, d=0.0, tabs=0):
+        """
+        Draw a round hole
 
+        :param x: position
+        :param y: postion
+        :param r: radius
+
+        """
+
+        if not r:
+            r = d / 2.0
+        if r < self.burn:
+            r = self.burn + 1E-9
+        r_ = r - self.burn
+        self.moveTo(x, y, -90)
+        self.corner(-360, r, tabs)
 
     def render(self):
 
@@ -71,12 +87,14 @@ class BENBOX(Boxes):
         self.rectangularWall(x, hb, [b, "F", edge_types[0], "F"], move="right", label="Front Base")
         self.rectangularWall(y, hb, [b, "f", edge_types[1], "f"], move="right", label="Right Base")
         
+        hOffset = (self.spacing/2) + extra          # Offset to align the centre points of the hole in the x axis.
+
         if self.hinge:
-            #self.hole(x = 0, y=0, d=hgh)
-            self.hole(x = self.x/4 + (hgh/2) + extra,         y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4 - hgs + (hgh/2) + extra,   y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4*3 + (hgh/2) + extra,       y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4*3 + hgs + (hgh/2) + extra, y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
+            #self.hole(x=0+ (self.spacing/2), y=0, d=hgh)
+            self.hole(x = self.x/4 + hOffset,         y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4 - hgs + hOffset,   y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4*3 + hOffset,       y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4*3 + hgs + hOffset, y=(hb + self.thickness) - hgo + (hgh/2), d=hgh)
         self.rectangularWall(x, hb, [b, "F", edge_types[2], "F"], move="right", label="Back Base")
         self.rectangularWall(y, hb, [b, "f", edge_types[3], "f"], move="right", label="Left Base")
 
@@ -95,10 +113,10 @@ class BENBOX(Boxes):
         
         if self.hinge:
             #self.hole(x = 0, y=0, d=hgh)
-            self.hole(x = self.x/4 + (hgh/2) + extra,         y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4 - hgs + (hgh/2) + extra,   y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4*3 + (hgh/2) + extra,       y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
-            self.hole(x = self.x/4*3 + hgs + (hgh/2) + extra, y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4 + hOffset,         y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4 - hgs + hOffset,   y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4*3 + hOffset,       y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
+            self.hole(x = self.x/4*3 + hgs + hOffset, y=(hl + self.thickness) - hgo + (hgh/2), d=hgh)
         self.rectangularWall(x, hl, "FF" + edge_types[2] + "F", move="right", label="Back Lid")
         
         self.rectangularWall(y, hl, "Ff" + edge_types[1] + "f", move="right", label="Right Lid")
