@@ -126,30 +126,31 @@ class BENBOX(Boxes):
 
 if __name__ == "__main__":
 
+
     b = BENBOX()
 
+    fn = 'benBox2.svg'
 
-    #fd, fn = tempfile.mkstemp()
-    fn = 'benBox.svg'
-    b.parseArgs(['--reference=0', '--debug=0', '--output=' + fn])
-    b.thickness = 2.8
-    b.tabs = 0
-    b.burn = 0.1
-    b.labels = False
+    args = ['--reference=0', '--debug=0', '--output=' + fn]
+    args.append('--thickness=2.8')
+    args.append('--tabs=0')
+    args.append('--burn=0.095')
+    args.append('--labels=False')
+    args.append('--outside=False')
+    args.append('--heightBase=20')
+    args.append('--heightLid=35')
+    args.append('--x=100')          # Will have the hinge
+    args.append('--y=60')
+    args.append('--hinge=True')
+    args.append('--hingeHoleSize=2')
+    args.append('--hingeEdgeOffset=3.9')
+    args.append('--hingeHoleSpacing=11')
+    args.append('--edge_types=zeee')
 
-    b.outside = True
-    b.heightBase = 30
-    b.heightLid = 15
-    b.x = 190               # should be longest as it will have the hinge
-    b.y = 70
-
-    b.hinge=True
-    b.hingeHoleSize = 1.8
-    b.hingeEdgeOffset = 3.3
-    b.hingeHoleSpacing = 11
-    #b.lid = True
-    b.edge_types = 'zeee'
-
+    b.parseArgs(args)
     b.open()
     b.render()
     b.close()
+
+    b = BENBOX()
+
